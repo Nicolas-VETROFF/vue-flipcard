@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Vue Flip Card Example</h1>
-        <FlipCard activeHover activeClick>
+        <FlipCard active-hover active-click>
             <template #front>
                 <p>Front Side</p>
             </template>

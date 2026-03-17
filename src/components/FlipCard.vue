@@ -1,5 +1,12 @@
 <template>
-  <div class="flip-card" :style="{ width, height }" @click="onClick" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" :aria-pressed="isFlipped">
+  <div
+    class="flip-card"
+    :style="{ width, height }"
+    :aria-pressed="isFlipped"
+    @click="onClick"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
+  >
     <div class="flip-card-inner" :class="{ flipped: isFlipped }">
       <div class="flip-card-face front"><slot name="front"></slot></div>
       <div class="flip-card-face back"><slot name="back"></slot></div>
@@ -27,7 +34,6 @@ function onClick() {
 
   side.value = side.value === 'front' ? 'back' : 'front'
 }
-
 
 // HOVER EVENTS
 function onMouseEnter() {
