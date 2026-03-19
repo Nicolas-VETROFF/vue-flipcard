@@ -1,15 +1,25 @@
 {
-  "name": "@nvdev/vue-flipcard",
-  "version": "1.0.0",
+  "name": "@nv-dev/vue-flipcard",
+  "version": "1.0.1",
   "description": "A small Vue 3 flip-card component with support for hover, click and drag interactions.",
-  "main": "dist/v-flipcard.cjs.js",
-  "module": "dist/v-flipcard.es.js",
-  "types": "dist/main.d.ts",
-  "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/nicolas-vetroff/vue-flipcard" },
-  "keywords": ["vue", "flipcard", "component"],
-  "author": "Nicolas VETROFF",
+  "keywords": [
+    "vue",
+    "flipcard",
+    "component"
+  ],
   "homepage": "https://github.com/nicolas-vetroff/vue-flipcard",
+  "bugs": {
+    "url": "https://github.com/nicolas-vetroff/vue-flipcard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolas-vetroff/vue-flipcard.git"
+  },
+  "license": "MIT",
+  "author": "Nicolas VETROFF",
+  "type": "commonjs",
+  "main": "dist/v-flipcard.cjs.js",
+  "types": "dist/main.d.ts",
   "files": [
     "dist"
   ],
@@ -18,14 +28,34 @@
     "prepublish": "npm run build",
     "publish": "npm publish --access public"
   },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.5",
-    "path": "^0.12.7",
-    "vite": "^5.0.0"
-  },
   "dependencies": {
     "inquirer": "^13.3.2",
     "vue": "^3.2.0",
     "vue-device-detect": "^1.0.3"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.0.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "path": "^0.12.7",
+    "vite": "^5.0.0"
+  },
+  "module": "dist/v-flipcard.es.js",
+  "nuxt": {
+    "name": "@nv-dev/vue-flipcard",
+    "configKey": "flipcard",
+    "pascalName": "VFlipcard",
+    "snakeName": "v-flipcard",
+    "dist": true
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/v-flipcard.es.js",
+      "require": "./dist/v-flipcard.cjs.js"
+    },
+    "./nuxt": {
+      "import": "./dist/nuxt.mjs",
+      "require": "./dist/nuxt.cjs",
+      "types": "./dist/nuxt.d.ts"
+    }
   }
 }
