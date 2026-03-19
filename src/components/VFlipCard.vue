@@ -159,17 +159,70 @@ function onMouseLeave() {
 </template>
 
 <style scoped>
-.flip-card { perspective: 1000px; display: inline-block; cursor: pointer; }
-.flip-card-inner { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
-.flip-card-inner.flipped.right { transform: rotateY(180deg); }
-.flip-card-inner.flipped.left { transform: rotateY(-180deg); }
-.flip-card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 6px; box-sizing: border-box; padding: 8px; }
-.flip-card-face.back { position: absolute; top: 0; left: 0; }
-.front { background: #fff; border: 1px solid #ddd; }
-.back { background: #f7f7f7; border: 1px solid #ddd; }
+.flip-card {
+  perspective: 1000px;
+  display: inline-block;
+  cursor: pointer;
+}
 
-.back.right { transform: rotateY(180deg); }
-.back.left { transform: rotateY(-180deg); }
-.back.up { transform: rotateX(180deg); }
-.back.down { transform: rotateX(-180deg); }
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped.right {
+  transform: rotateY(180deg);
+}
+
+.flip-card-inner.flipped.left {
+  transform: rotateY(-180deg);
+}
+
+.flip-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.flip-card-face.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.back {
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.back.right {
+  transform: rotateY(180deg);
+}
+
+.back.left {
+  transform: rotateY(-180deg);
+}
+
+.back.up {
+  transform: rotateX(180deg);
+}
+
+.back.down {
+  transform: rotateX(-180deg);
+}
 </style>

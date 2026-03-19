@@ -8,7 +8,7 @@
             active-drag
             active-click
             active-hover
-            flip-side="right"
+            flip-side="left"
         >
             <template #front>
                 <p>Front Side</p>

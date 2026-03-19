@@ -1,6 +1,6 @@
 {
   "name": "@nv-dev/vue-flipcard",
-  "version": "1.0.6",
+  "version": "0.0.1",
   "description": "A small Vue 3 flip-card component with support for hover, click and drag interactions.",
   "keywords": [
     "vue",
@@ -17,9 +17,23 @@
   },
   "license": "MIT",
   "author": "Nicolas VETROFF",
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/v-flipcard.cjs.js",
-  "types": "dist/main.d.ts",
+  "module": "dist/v-flipcard.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/v-flipcard.es.js",
+      "require": "./dist/v-flipcard.cjs.js, ./dist/style.css"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "import": "./dist/nuxt.es.js",
+      "require": "./dist/nuxt.cjs.js, ./dist/style.css"
+    }
+  },
+  "nuxt": "dist/nuxt.es.js",
   "files": [
     "dist"
   ],
@@ -38,7 +52,7 @@
     "@nuxt/kit": "^4.4.2",
     "@vitejs/plugin-vue": "^6.0.5",
     "path": "^0.12.7",
-    "vite": "^5.0.0"
-  },
-  "module": "dist/v-flipcard.es.js"
+    "vite": "^5.0.0",
+    "vite-plugin-css-injected-by-js": "^4.0.1"
+  }
 }

@@ -23,11 +23,46 @@ pnpm add vue-flipcard
 
 ## Usage
 
-### Import the component
+### For Vue 3 apps
+
+#### Import the component
 
 ```typescript
 import VFlipCard from 'vue-flipcard'
 import 'vue-flipcard/dist/style.css'
+```
+
+Or register globally:
+
+```typescript
+import { createApp } from 'vue'
+import VFlipCard from 'vue-flipcard'
+import 'vue-flipcard/dist/style.css'
+
+const app = createApp(App)
+app.component('VFlipCard', VFlipCard.VFlipCard)
+app.mount('#app')
+```
+
+### For Nuxt 3 (Auto-import)
+
+Add the module to your `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['@nv-dev/vue-flipcard'],
+})
+```
+
+The `VFlipCard` component will be automatically imported throughout your Nuxt app. No manual imports needed!
+
+```html
+<template>
+  <VFlipCard flip-side="right" active-click>
+    <template #front>Front</template>
+    <template #back>Back</template>
+  </VFlipCard>
+</template>
 ```
 
 ### Basic example
