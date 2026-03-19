@@ -26,7 +26,7 @@ pnpm add vue-flipcard
 ### Import the component
 
 ```typescript
-import FlipCard from 'vue-flipcard'
+import VFlipCard from 'vue-flipcard'
 import 'vue-flipcard/dist/style.css'
 ```
 
@@ -34,7 +34,7 @@ import 'vue-flipcard/dist/style.css'
 
 ```html
 <template>
-  <FlipCard
+  <VFlipCard
     width="200px"
     height="150px"
     flip-side="right"
@@ -47,7 +47,7 @@ import 'vue-flipcard/dist/style.css'
     <template #back>
       <p>Back side</p>
     </template>
-  </FlipCard>
+  </VFlipCard>
 </template>
 ```
 
@@ -74,31 +74,31 @@ Content displayed on the back face of the card.
 
 ### Flip on click
 ```html
-<FlipCard flip-side="right" active-click>
+<VFlipCard flip-side="right" active-click>
   <template #front><img src="front.jpg" /></template>
   <template #back><img src="back.jpg" /></template>
-</FlipCard>
+</VFlipCard>
 ```
 
 ### Flip on hover (desktop)
 ```html
-<FlipCard flip-side="up" active-hover>
+<VFlipCard flip-side="up" active-hover>
   <template #front>Hover me</template>
   <template #back>Flipped!</template>
-</FlipCard>
+</VFlipCard>
 ```
 
 ### Flip on drag
 ```html
-<FlipCard flip-side="left" active-drag width="300px" height="200px">
+<VFlipCard flip-side="left" active-drag width="300px" height="200px">
   <template #front>Swipe left</template>
   <template #back>Content</template>
-</FlipCard>
+</VFlipCard>
 ```
 
 ### All interactions
 ```html
-<FlipCard
+<VFlipCard
   flip-side="down"
   active-click
   active-drag
@@ -106,7 +106,7 @@ Content displayed on the back face of the card.
 >
   <template #front>Front</template>
   <template #back>Back</template>
-</FlipCard>
+</VFlipCard>
 ```
 
 ## Flip directions

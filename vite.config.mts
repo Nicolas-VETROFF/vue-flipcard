@@ -8,7 +8,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'FlipCard',
-      fileName: (format) => `vue-flipcard.${format}.js`,
+      fileName: (format) => `v-flipcard.${format}.js`,
       formats: ['es', 'cjs', 'umd']
     },
     rollupOptions: {

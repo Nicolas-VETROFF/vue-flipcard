@@ -1,9 +1,9 @@
-import FlipCard from './components/FlipCard.vue'
+import VFlipCard from './components/VFlipCard.vue'
 import type { App } from 'vue'
 
 const install = (app: App) => {
-  app.component('FlipCard', FlipCard)
+  app.component('VFlipCard', VFlipCard)
 }
 
 export default { install }
-export { FlipCard }
+export { VFlipCard }
