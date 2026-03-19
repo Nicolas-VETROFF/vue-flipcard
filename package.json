@@ -1,6 +1,6 @@
 {
   "name": "@nv-dev/vue-flipcard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A small Vue 3 flip-card component with support for hover, click and drag interactions.",
   "keywords": [
     "vue",
@@ -29,6 +29,7 @@
     "publish": "npm publish --access public"
   },
   "dependencies": {
+    "@nuxt/schema": "^4.4.2",
     "inquirer": "^13.3.2",
     "vue": "^3.2.0",
     "vue-device-detect": "^1.0.3"
