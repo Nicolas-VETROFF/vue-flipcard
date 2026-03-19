@@ -7,20 +7,22 @@ const props = defineProps({
   height: { type: String, default: '200px' },
   activeHover: { type: Boolean, default: false },
   activeClick: { type: Boolean, default: false },
-  activeDrag: { type: Boolean, default: true }, // Set true for testing
-  /* 'right' means pulling the right side toward you (clockwise) */
+  activeDrag: { type: Boolean, default: false },
   flipSide: { type: String as () => 'left' | 'right' | 'up' | 'down', default: 'right' },
 })
 
 const side = ref<'front' | 'back'>('front')
+const isFlipped = computed(() => side.value === 'back')
+
 const rotation = ref(0)
 const startTouchX = ref(0)
+const startTouchY = ref(0)
 const isDragging = ref(false)
 
 // Base rotation: Front is 0, Back is 180 or -180 depending on flipSide
 const baseRotation = computed(() => {
   if (side.value === 'back') {
-    return props.flipSide === 'right' ? 180 : -180
+    return (props.flipSide === 'right' || props.flipSide === 'up') ? 180 : -180
   }
   return 0
 })
@@ -39,6 +41,7 @@ function onTouchStart(e: TouchEvent) {
   if (!props.activeDrag) return
   isDragging.value = true
   startTouchX.value = e.touches[0].screenX
+  startTouchY.value = e.touches[0].screenY
 }
 
 function onTouchMove(e: TouchEvent) {
@@ -47,7 +50,7 @@ function onTouchMove(e: TouchEvent) {
   // For vertical flip, use Y-axis movement
   if (props.flipSide === 'up' || props.flipSide === 'down') {
     const currentY = e.touches[0].screenY
-    const deltaY = currentY - startTouchX.value
+    const deltaY = currentY - startTouchY.value
 
     const directionMultiplier = props.flipSide === 'down' ? 1 : -1
     const sensitivity = directionMultiplier * 180 / 200 // 200px for full flip
@@ -56,11 +59,11 @@ function onTouchMove(e: TouchEvent) {
     let newRotation = baseRotation.value + moveIncrement
 
     if (side.value === 'front') {
-      if (props.flipSide === 'down') rotation.value = Math.max(0, Math.min(180, newRotation))
+      if (props.flipSide === 'up') rotation.value = Math.max(0, Math.min(180, newRotation))
       else rotation.value = Math.max(-180, Math.min(0, newRotation))
     } else {
-      if (props.flipSide === 'down') rotation.value = Math.min(180, Math.max(0, newRotation))
-      else rotation.value = Math.min(0, Math.max(-180, newRotation))
+      if (props.flipSide === 'up') rotation.value = Math.min(180, Math.max(0, newRotation))
+      else rotation.value = Math.max(-180, Math.min(0, newRotation))
     }
     return
   }
@@ -91,9 +94,17 @@ function onTouchEnd() {
   // Snap logic: if past 90 degrees, go to back. Otherwise, back to front.
   if (rotation.value > 90 || rotation.value < -90) {
     side.value = 'back'
+    if (props.flipSide === 'up' || props.flipSide === 'down') {
+      rotation.value = props.flipSide === 'down' ? -180 : 180
+      return
+    }
     rotation.value = props.flipSide === 'right' ? 180 : -180
   } else {
     side.value = 'front'
+    if (props.flipSide === 'up' || props.flipSide === 'down') {
+      rotation.value = 0
+      return
+    }
     rotation.value = 0
   }
 }
@@ -102,6 +113,10 @@ function onTouchEnd() {
 function onClick() {
   if (!props.activeClick) return
   side.value = side.value === 'front' ? 'back' : 'front'
+  if (props.flipSide === 'up' || props.flipSide === 'down') {
+    rotation.value = side.value === 'back' ? props.flipSide === 'up' ? 180 : -180 : 0
+    return
+  }
   rotation.value = side.value === 'back' ? props.flipSide === 'right' ? 180 : -180 : 0
 }
 
@@ -109,7 +124,11 @@ function onClick() {
 function onMouseEnter() {
   if (!props.activeHover || !isDesktop) return
   side.value = 'back'
-  rotation.value = 180
+  if (props.flipSide === 'up' || props.flipSide === 'down') {
+    rotation.value = props.flipSide === 'down' ? 180 : -180
+    return
+  }
+  rotation.value = props.flipSide === 'right' ? 180 : -180
 }
 
 function onMouseLeave() {
@@ -135,7 +154,7 @@ function onMouseLeave() {
       :style="cardStyle"
     >
       <div class="flip-card-face front"><slot name="front"></slot></div>
-      <div class="flip-card-face back"><slot name="back"></slot></div>
+      <div class="flip-card-face back" :class="{ [flipSide]: isFlipped }"><slot name="back"></slot></div>
     </div>
   </div>
 </template>
