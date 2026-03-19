@@ -5,5 +5,5 @@ const install = (app: App) => {
   app.component('FlipCard', FlipCard)
 }
 
-export { FlipCard }
 export default { install }
+export { FlipCard }
