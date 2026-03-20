@@ -23,7 +23,7 @@ export default defineConfig({
         'module': path.resolve(__dirname, 'src/module.ts'),
         'v-flipcard': path.resolve(__dirname, 'src/components/VFlipCard.vue'),
       },
-      name: 'FlipCard',
+      name: 'VFlipCard',
       fileName: (format, entryName) => {
         const prefix = entryName
         return `${prefix}.${format}.js`
