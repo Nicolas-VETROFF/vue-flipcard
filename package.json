@@ -5,7 +5,11 @@
   "keywords": [
     "vue",
     "flipcard",
-    "component"
+    "component",
+    "draggable",
+    "hover",
+    "click",
+    "nuxt"
   ],
   "homepage": "https://github.com/nicolas-vetroff/vue-flipcard",
   "bugs": {
@@ -18,19 +22,19 @@
   "license": "MIT",
   "author": "Nicolas VETROFF",
   "type": "module",
-  "main": "dist/v-flipcard.cjs.js",
-  "module": "dist/v-flipcard.es.js",
+  "main": "dist/main.cjs.js",
+  "module": "dist/module.es.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/v-flipcard.es.js",
-      "require": "./dist/v-flipcard.cjs.js, ./dist/style.css"
+      "import": "./dist/main.es.js",
+      "require": "./dist/main.cjs.js"
     },
     "./nuxt": {
-      "types": "./dist/nuxt.d.ts",
-      "import": "./dist/nuxt.es.js",
-      "require": "./dist/nuxt.cjs.js, ./dist/style.css"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/module.es.js",
+      "require": "./dist/module.cjs.js"
     }
   },
   "nuxt": "dist/nuxt.es.js",
@@ -42,17 +46,23 @@
     "prepublish": "npm run build",
     "publish": "npm publish --access public"
   },
+  "peerDependencies": {
+    "nuxt": "^3.0.0 || ^4.0.0",
+    "vue": "^3.2.0"
+  },
   "dependencies": {
-    "@nuxt/schema": "^4.4.2",
     "inquirer": "^13.3.2",
-    "vue": "^3.2.0",
     "vue-device-detect": "^1.0.3"
   },
   "devDependencies": {
     "@nuxt/kit": "^4.4.2",
+    "@nuxt/schema": "^4.4.2",
     "@vitejs/plugin-vue": "^6.0.5",
     "path": "^0.12.7",
     "vite": "^5.0.0",
-    "vite-plugin-css-injected-by-js": "^4.0.1"
+    "vite-plugin-css-injected-by-js": "^4.0.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vue":"3.5.30",
+    "nuxt":"4.4.2"
   }
 }

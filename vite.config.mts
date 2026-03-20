@@ -2,23 +2,30 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   plugins: [
     vue(),
     cssInjectedByJsPlugin({
-      jsAssetsFilterFunction: (outputChunk) => outputChunk.fileName.includes('v-flipcard'),
+      jsAssetsFilterFunction: (outputChunk) => outputChunk.fileName.endsWith('.js'),
     }),
+    dts({
+      include: ['src/**/*.ts', 'src/**/*.d.ts', 'src/**/*.vue'],
+      outDir: 'dist',
+      rollupTypes: true,
+    })
   ],
   build: {
     lib: {
       entry: {
-        'index': path.resolve(__dirname, 'src/index.ts'),
-        'nuxt': path.resolve(__dirname, 'src/module.ts'),
+        'main': path.resolve(__dirname, 'src/index.ts'),
+        'module': path.resolve(__dirname, 'src/module.ts'),
+        'v-flipcard': path.resolve(__dirname, 'src/components/VFlipCard.vue'),
       },
       name: 'FlipCard',
       fileName: (format, entryName) => {
-        const prefix = entryName === 'index' ? 'v-flipcard' : 'nuxt'
+        const prefix = entryName
         return `${prefix}.${format}.js`
       },
       formats: ['es', 'cjs']

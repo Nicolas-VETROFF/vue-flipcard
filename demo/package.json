@@ -7,8 +7,9 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@nv-dev/vue-flipcard": "0.0.1",
+    "@nv-dev/vue-flipcard": "file:../",
     "@vitejs/plugin-vue": "^6.0.5",
-    "vite": "^8.0.0"
+    "vite": "^8.0.0",
+    "vue": "^3.5.30"
   }
 }
