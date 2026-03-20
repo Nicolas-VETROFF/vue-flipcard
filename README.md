@@ -79,7 +79,7 @@ Since this is a **client-only component**, wrap it with `<ClientOnly>`:
     height="150px"
     flip-side="right"
     active-click
-    active-drag
+    active-touch
   >
     <template #front>
       <p>Front side</p>
@@ -99,7 +99,7 @@ Since this is a **client-only component**, wrap it with `<ClientOnly>`:
 | `height` | String | `'150px'` | Card height |
 | `flipSide` | `'left' \| 'right' \| 'up' \| 'down'` | `'right'` | Flip direction |
 | `activeClick` | Boolean | `false` | Enable flip on click |
-| `activeDrag` | Boolean | `false` | Enable flip on drag/swipe (mobile only) |
+| `activeTouch` | Boolean | `false` | Enable flip on drag/swipe (mobile only) |
 | `activeHover` | Boolean | `false` | Enable flip on hover (desktop only) |
 
 ## Slots
@@ -151,7 +151,7 @@ This prevents hydration mismatches and ensures your component renders correctly.
 
 ### Flip on swipe (mobile)
 ```html
-<VFlipCard flip-side="left" active-drag width="300px" height="200px">
+<VFlipCard flip-side="left" active-touch width="300px" height="200px">
   <template #front>Swipe left</template>
   <template #back>Content</template>
 </VFlipCard>
@@ -162,7 +162,7 @@ This prevents hydration mismatches and ensures your component renders correctly.
 <VFlipCard
   flip-side="down"
   active-click
-  active-drag
+  active-touch
   active-hover
 >
   <template #front>Front</template>

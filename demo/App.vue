@@ -5,7 +5,7 @@
     <div>
         <h1>Vue Flip Card Example</h1>
         <VFlipCard
-            active-drag
+            active-touch
             flip-side="left"
         >
             <template #front>

@@ -7,7 +7,7 @@ const props = defineProps({
   height: { type: String, default: '150px' },
   activeHover: { type: Boolean, default: false },
   activeClick: { type: Boolean, default: false },
-  activeDrag: { type: Boolean, default: false },
+  activeTouch: { type: Boolean, default: false },
   flipSide: { type: String as () => 'left' | 'right' | 'up' | 'down', default: 'right' },
 })
 
@@ -38,7 +38,7 @@ const cardStyle = computed((): CSSProperties => {
 
 // Mobile handlers only
 function onTouchStart(e: TouchEvent) {
-  if (!props.activeDrag) return
+  if (!props.activeTouch) return
   isDragging.value = true
   startTouchX.value = e.touches[0].screenX
   startTouchY.value = e.touches[0].screenY
