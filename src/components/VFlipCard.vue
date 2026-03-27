@@ -103,8 +103,56 @@ function onTouchEnd() {
   if (!isDragging.value) return
   isDragging.value = false
 
+  if (side.value === 'front') {
+    if (props.flipSide === 'left' || props.flipSide === 'down') {
+      // If past (-)90 degrees, flip to back. Otherwise, snap back to front.
+      if (rotation.value < -90) {
+        side.value = 'back'
+        rotation.value = -180
+        emit(`flip:${side.value}`)
+        return
+      } else {
+        rotation.value = 0
+        return
+      }
+    }
+
+    if (rotation.value > 90) {
+      side.value = 'back'
+      rotation.value = 180
+      emit(`flip:${side.value}`)
+      return
+    } else {
+      rotation.value = 0
+      return
+    }
+  } else {
+    if (props.flipSide === 'left' || props.flipSide === 'down') {
+      // If past (-)90 degrees, flip to front. Otherwise, snap back to back.
+      if (rotation.value > -90) {
+        side.value = 'front'
+        rotation.value = 0
+        emit(`flip:${side.value}`)
+        return
+      } else {
+        rotation.value = -180
+        return
+      }
+    }
+
+    if (rotation.value < 90) {
+      side.value = 'front'
+      rotation.value = 0
+      emit(`flip:${side.value}`)
+      return
+    } else {
+      rotation.value = 180
+      return
+    }
+  }
+
   // Snap logic: if past 90 degrees, go to back. Otherwise, back to front.
-  if (rotation.value > 90 || rotation.value < -90) {
+  if (side.value === 'front' && (rotation.value > 90 || rotation.value < -90)) {
     side.value = 'back'
     if (props.flipSide === 'up' || props.flipSide === 'down') {
       rotation.value = props.flipSide === 'down' ? -180 : 180
@@ -115,9 +163,8 @@ function onTouchEnd() {
     emit(`flip:${side.value}`)
   } else if (rotation.value < 45 && rotation.value > -45) {
     rotation.value = 0
-    emit(`flip:${side.value}`)
     return
-  } else {
+  } else if (side.value === 'back') {
     side.value = 'front'
     if (props.flipSide === 'up' || props.flipSide === 'down') {
       rotation.value = 0
@@ -126,6 +173,8 @@ function onTouchEnd() {
     }
     rotation.value = 0
     emit(`flip:${side.value}`)
+  } else {
+    rotation.value = 0
   }
 }
 

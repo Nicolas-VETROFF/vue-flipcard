@@ -5,6 +5,7 @@
     <div>
         <h1>Vue Flip Card Example</h1>
         <VFlipCard
+            active-drag
             active-click
             flip-side="left"
             @flip:front="console.log('Flipped to front')"
