@@ -2,8 +2,8 @@
     "compilerOptions": {
         "target": "ES2020",
         "useDefineForClassFields": true,
-        "module": "esnext",
-        "moduleResolution": "node",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
         "isolatedModules": true,
         "strict": true,
         "jsx": "preserve",
