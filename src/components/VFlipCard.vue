@@ -9,6 +9,7 @@ const props = defineProps({
   activeClick: { type: Boolean, default: false },
   activeDrag: { type: Boolean, default: false },
   flipSide: { type: String as () => 'left' | 'right' | 'up' | 'down', default: 'right' },
+  cardClass: { type: String, default: '' }
 })
 
 const side = ref<'front' | 'back'>('front')
@@ -152,8 +153,8 @@ function onMouseLeave() {
     @mouseleave="onMouseLeave"
   >
     <div class="flip-card-inner" :style="cardStyle" :class="{ flipped: isFlipped }">
-      <div class="flip-card-face front"><slot name="front"></slot></div>
-      <div class="flip-card-face back" :class="flipSide"><slot name="back"></slot></div>
+      <div class="flip-card-face front" :class="cardClass"><slot name="front"></slot></div>
+      <div class="flip-card-face back" :class="flipSide + ' ' + cardClass"><slot name="back"></slot></div>
     </div>
   </div>
 </template>
