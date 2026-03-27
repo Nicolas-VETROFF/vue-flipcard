@@ -223,7 +223,38 @@ Customize with scoped CSS:
 
 ## Events
 
-Currently, the component does not emit events. State changes are managed internally. To track changes, use slots with Vue refs. It will change in a next update.
+The component emits events when the card flips:
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `flip:front` | — | Emitted when the card flips to show the front face |
+| `flip:back` | — | Emitted when the card flips to show the back face |
+
+### Usage
+
+```html
+<template>
+  <VFlipCard
+    flip-side="right"
+    active-click
+    @flip:front="onFlipToFront"
+    @flip:back="onFlipToBack"
+  >
+    <template #front>Front</template>
+    <template #back>Back</template>
+  </VFlipCard>
+</template>
+
+<script setup>
+const onFlipToFront = () => {
+  console.log('Card flipped to front')
+}
+
+const onFlipToBack = () => {
+  console.log('Card flipped to back')
+}
+</script>
+```
 
 ## Browser Support
 

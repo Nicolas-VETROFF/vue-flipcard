@@ -12,6 +12,10 @@ const props = defineProps({
   cardClass: { type: String, default: '' }
 })
 
+const emit = defineEmits(['flip:back', 'flip:front'])
+
+// ---------------------------------
+
 const side = ref<'front' | 'back'>('front')
 const isFlipped = computed(() => side.value === 'back')
 
@@ -19,6 +23,10 @@ const rotation = ref(0)
 const startTouchX = ref(0)
 const startTouchY = ref(0)
 const isDragging = ref(false)
+
+//////////////
+// COMPUTED //
+//////////////
 
 // Base rotation: Front is 0, Back is 180 or -180 depending on flipSide
 const baseRotation = computed(() => {
@@ -36,6 +44,10 @@ const cardStyle = computed((): CSSProperties => {
     position: 'relative'
   }
 })
+
+/////////////
+// METHODS //
+/////////////
 
 // Mobile handlers only
 function onTouchStart(e: TouchEvent) {
@@ -96,19 +108,23 @@ function onTouchEnd() {
     side.value = 'back'
     if (props.flipSide === 'up' || props.flipSide === 'down') {
       rotation.value = props.flipSide === 'down' ? -180 : 180
+      emit(`flip:${side.value}`)
       return
     }
     rotation.value = props.flipSide === 'right' ? 180 : -180
   } else if (rotation.value < 45 && rotation.value > -45) {
     rotation.value = 0
+    emit(`flip:${side.value}`)
     return
   } else {
     side.value = 'front'
     if (props.flipSide === 'up' || props.flipSide === 'down') {
       rotation.value = 0
+      emit(`flip:${side.value}`)
       return
     }
     rotation.value = 0
+    emit(`flip:${side.value}`)
   }
 }
 
@@ -118,9 +134,11 @@ function onClick() {
   side.value = side.value === 'front' ? 'back' : 'front'
   if (props.flipSide === 'up' || props.flipSide === 'down') {
     rotation.value = side.value === 'back' ? props.flipSide === 'up' ? 180 : -180 : 0
+    emit(`flip:${side.value}`)
     return
   }
   rotation.value = side.value === 'back' ? props.flipSide === 'right' ? 180 : -180 : 0
+  emit(`flip:${side.value}`)
 }
 
 // Desktop handlers only
@@ -129,15 +147,18 @@ function onMouseEnter() {
   side.value = 'back'
   if (props.flipSide === 'up' || props.flipSide === 'down') {
     rotation.value = props.flipSide === 'down' ? -180 : 180
+    emit(`flip:${side.value}`)
     return
   }
   rotation.value = props.flipSide === 'right' ? 180 : -180
+  emit(`flip:${side.value}`)
 }
 
 function onMouseLeave() {
   if (!props.activeHover || !isDesktop) return
   side.value = 'front'
   rotation.value = 0
+  emit(`flip:${side.value}`)
 }
 </script>
 
