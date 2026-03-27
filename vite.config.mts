@@ -16,6 +16,14 @@ export default defineConfig({
       rollupTypes: true,
     })
   ],
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+    }
+  },
   build: {
     lib: {
       entry: {

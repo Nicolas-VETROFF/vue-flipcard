@@ -11,11 +11,11 @@ export default defineNuxtModule({
   setup() {
     const { resolve } = createResolver(import.meta.url)
 
-    // Auto-import du composant VFlipCard
+    // Auto-import du composant VFlipCard depuis main.es.js
     addComponent({
       name: 'VFlipCard',
-      export: 'default',
-      filePath: resolve('./v-flipcard.es.js')
+      export: 'VFlipCard',
+      filePath: resolve('./main.es.js')
     })
   }
 })

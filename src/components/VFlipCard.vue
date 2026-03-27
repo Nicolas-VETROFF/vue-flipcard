@@ -112,6 +112,7 @@ function onTouchEnd() {
       return
     }
     rotation.value = props.flipSide === 'right' ? 180 : -180
+    emit(`flip:${side.value}`)
   } else if (rotation.value < 45 && rotation.value > -45) {
     rotation.value = 0
     emit(`flip:${side.value}`)
