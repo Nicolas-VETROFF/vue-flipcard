@@ -150,32 +150,6 @@ function onTouchEnd() {
       return
     }
   }
-
-  // Snap logic: if past 90 degrees, go to back. Otherwise, back to front.
-  if (side.value === 'front' && (rotation.value > 90 || rotation.value < -90)) {
-    side.value = 'back'
-    if (props.flipSide === 'up' || props.flipSide === 'down') {
-      rotation.value = props.flipSide === 'down' ? -180 : 180
-      emit(`flip:${side.value}`)
-      return
-    }
-    rotation.value = props.flipSide === 'right' ? 180 : -180
-    emit(`flip:${side.value}`)
-  } else if (rotation.value < 45 && rotation.value > -45) {
-    rotation.value = 0
-    return
-  } else if (side.value === 'back') {
-    side.value = 'front'
-    if (props.flipSide === 'up' || props.flipSide === 'down') {
-      rotation.value = 0
-      emit(`flip:${side.value}`)
-      return
-    }
-    rotation.value = 0
-    emit(`flip:${side.value}`)
-  } else {
-    rotation.value = 0
-  }
 }
 
 // Desktop and mobile handler
