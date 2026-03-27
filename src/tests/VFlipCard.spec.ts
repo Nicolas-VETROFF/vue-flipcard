@@ -7,6 +7,9 @@ import VFlipCard from '../components/VFlipCard.vue'
 ///////////
 
 describe('VFlipCard - Emits', () => {
+  // TODO: Right is currently tested (hover, click, drag), but all sides should be tested
+
+  // RIGHT
   it('should emit flip:back on click when activeClick is true', async () => {
     const wrapper = mount(VFlipCard, {
       props: {
@@ -144,6 +147,67 @@ describe('VFlipCard - Emits', () => {
 
     expect(wrapper.emitted('flip:back')).toBeTruthy()
   })
+
+  // GLOBAL
+  it('should not emit on click when activeClick is false', async () => {
+    const wrapper = mount(VFlipCard, {
+      props: {
+        activeClick: false,
+        flipSide: 'right'
+      },
+      slots: {
+        front: 'Front',
+        back: 'Back'
+      }
+    })
+
+    await wrapper.find('.flip-card').trigger('click')
+    expect(wrapper.emitted('flip:front')).toBeFalsy()
+  })
+
+  it('should not emit on hover when activeHover is false', async () => {
+    const wrapper = mount(VFlipCard, {
+      props: {
+        activeHover: false,
+        flipSide: 'right'
+      },
+      slots: {
+        front: 'Front',
+        back: 'Back'
+      }
+    })
+
+    await wrapper.find('.flip-card').trigger('mouseenter')
+    expect(wrapper.emitted('flip:back')).toBeFalsy()
+  })
+
+  it('should not emit on drag when activeDrag is false', async () => {
+    const wrapper = mount(VFlipCard, {
+      props: {
+        activeDrag: false,
+        flipSide: 'right'
+      },
+      slots: {
+        front: 'Front',
+        back: 'Back'
+      }
+    })
+
+    const el = wrapper.find('.flip-card').element
+    el.dispatchEvent(new TouchEvent('touchstart', {
+      bubbles: true,
+      touches: [{ screenX: 0, screenY: 0 }] as any
+    }))
+    el.dispatchEvent(new TouchEvent('touchmove', {
+      bubbles: true,
+      touches: [{ screenX: 100, screenY: 0 }] as any
+    }))
+    el.dispatchEvent(new TouchEvent('touchend', { bubbles: true }))
+
+    expect(wrapper.emitted('flip:back')).toBeFalsy()
+  })
+
+
 })
 
 ///////////
