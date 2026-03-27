@@ -192,7 +192,6 @@ function onMouseLeave() {
   justify-content: center;
   border-radius: 6px;
   box-sizing: border-box;
-  padding: 8px;
 }
 
 .flip-card-face.back {
