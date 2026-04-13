@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
+const test = ref<boolean>(true)
 </script>
 
 <template>
     <div>
         <h1>Vue Flip Card Example</h1>
         <VFlipCard
+            v-model="test"
             active-drag
             active-click
             flip-side="left"

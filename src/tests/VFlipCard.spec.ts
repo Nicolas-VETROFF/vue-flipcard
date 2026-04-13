@@ -143,6 +143,24 @@ describe('VFlipCard - Emits', () => {
 // PROPS //
 ///////////
 
+describe('VFlipCard - Model', () => {
+  it('should initialize with correct side based on model value', () => {
+    const wrapper = mount(VFlipCard, {
+      props: {
+        modelValue: true,
+        flipSide: 'right'
+      },
+      slots: {
+        front: 'Front',
+        back: 'Back'
+      }
+    })
+
+    expect(wrapper.props('modelValue')).toBe(true)
+    expect(wrapper.find('.flip-card-inner').attributes('style')).toContain('rotateY(180deg)')
+  })
+})
+
 describe('VFlipCard - Props', () => {
   it('should have correct default props', () => {
     const wrapper = mount(VFlipCard, {

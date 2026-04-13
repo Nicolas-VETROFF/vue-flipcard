@@ -71,6 +71,7 @@ describe('VFlipCard - Up emits', () => {
     }))
     el.dispatchEvent(new TouchEvent('touchend', { bubbles: true }))
 
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted('flip:back')).toBeTruthy()
   })
 })
