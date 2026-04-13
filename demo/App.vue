@@ -9,6 +9,8 @@ const test = ref<boolean>(true)
         <h1>Vue Flip Card Example</h1>
         <VFlipCard
             v-model="test"
+            width="400px"
+            height="300px"
             active-drag
             active-click
             flip-side="left"

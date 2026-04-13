@@ -76,12 +76,18 @@ function onTouchStart(e: TouchEvent) {
 function onTouchMove(e: TouchEvent) {
   if (!isDragging.value) return
 
+  const cardEl = e.currentTarget as HTMLElement | null
+  const dragDistance =
+    props.flipSide === 'up' || props.flipSide === 'down'
+      ? (cardEl?.clientHeight || 200)
+      : (cardEl?.clientWidth || 200)
+
   // For vertical flip, use Y-axis movement
   if (props.flipSide === 'up' || props.flipSide === 'down') {
     const currentY = e.touches[0].screenY
     const deltaY = currentY - startTouchY.value
 
-    const sensitivity = 180 / 200 // 200px for full flip
+    const sensitivity = 180 / dragDistance
 
     let moveIncrement = deltaY * sensitivity * -1
     let newRotation = baseRotation.value + moveIncrement
@@ -101,7 +107,7 @@ function onTouchMove(e: TouchEvent) {
   const deltaX = currentX - startTouchX.value
 
   const directionMultiplier = props.flipSide === 'right' ? 1 : -1
-  const sensitivity = directionMultiplier * 180 / 200 // 200px for full flip
+  const sensitivity = directionMultiplier * 180 / dragDistance
 
   let moveIncrement = deltaX * sensitivity * directionMultiplier
   let newRotation = baseRotation.value + moveIncrement

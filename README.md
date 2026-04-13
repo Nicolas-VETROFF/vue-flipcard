@@ -185,6 +185,7 @@ This prevents hydration mismatches and ensures your component renders correctly.
 
 ### Drag/Swipe
 - Move your finger in the flip direction
+- Drag distance is proportional to the card size (width for `left`/`right`, height for `up`/`down`)
 - 90-degree threshold to determine final side
 - Smooth animation with configurable transitions
 
