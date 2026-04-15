@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, CSSProperties } from 'vue'
+import { ref, computed, CSSProperties, watch } from 'vue'
 import { isDesktop } from 'vue-device-detect'
+
+const model = defineModel<boolean>({ default: false })
 
 const props = defineProps({
   width : { type: String, default: '200px' },
@@ -16,12 +18,23 @@ const emit = defineEmits(['flip:back', 'flip:front'])
 
 // ---------------------------------
 
-const side = ref<'front' | 'back'>('front')
-const isFlipped = computed(() => side.value === 'back')
+const side = ref<'front' | 'back'>(model.value ? 'back' : 'front')
 
-const rotation = ref(0)
+const rotation = ref(model.value ? (props.flipSide === 'right' || props.flipSide === 'up' ? 180 : -180) : 0)
 const getRotation = computed(() => rotation.value)
 defineExpose({ getRotation })
+
+watch(model, (newVal) => {
+  if (newVal) {
+    side.value = 'back'
+    rotation.value = props.flipSide === 'right' || props.flipSide === 'up' ? 180 : -180
+    emit(`flip:${side.value}`)
+  } else {
+    side.value = 'front'
+    rotation.value = 0
+    emit(`flip:${side.value}`)
+  }
+})
 
 const startTouchX = ref(0)
 const startTouchY = ref(0)
@@ -63,12 +76,18 @@ function onTouchStart(e: TouchEvent) {
 function onTouchMove(e: TouchEvent) {
   if (!isDragging.value) return
 
+  const cardEl = e.currentTarget as HTMLElement | null
+  const dragDistance =
+    props.flipSide === 'up' || props.flipSide === 'down'
+      ? (cardEl?.clientHeight || 200)
+      : (cardEl?.clientWidth || 200)
+
   // For vertical flip, use Y-axis movement
   if (props.flipSide === 'up' || props.flipSide === 'down') {
     const currentY = e.touches[0].screenY
     const deltaY = currentY - startTouchY.value
 
-    const sensitivity = 180 / 200 // 200px for full flip
+    const sensitivity = 180 / dragDistance
 
     let moveIncrement = deltaY * sensitivity * -1
     let newRotation = baseRotation.value + moveIncrement
@@ -88,7 +107,7 @@ function onTouchMove(e: TouchEvent) {
   const deltaX = currentX - startTouchX.value
 
   const directionMultiplier = props.flipSide === 'right' ? 1 : -1
-  const sensitivity = directionMultiplier * 180 / 200 // 200px for full flip
+  const sensitivity = directionMultiplier * 180 / dragDistance
 
   let moveIncrement = deltaX * sensitivity * directionMultiplier
   let newRotation = baseRotation.value + moveIncrement
@@ -106,13 +125,11 @@ function onTouchEnd() {
   if (!isDragging.value) return
   isDragging.value = false
 
-  if (side.value === 'front') {
+  if (model.value === false) {
     if (props.flipSide === 'left' || props.flipSide === 'down') {
       // If past (-)90 degrees, flip to back. Otherwise, snap back to front.
       if (rotation.value < -90) {
-        side.value = 'back'
-        rotation.value = -180
-        emit(`flip:${side.value}`)
+        model.value = true
         return
       } else {
         rotation.value = 0
@@ -121,9 +138,7 @@ function onTouchEnd() {
     }
 
     if (rotation.value > 90) {
-      side.value = 'back'
-      rotation.value = 180
-      emit(`flip:${side.value}`)
+      model.value = true
       return
     } else {
       rotation.value = 0
@@ -133,9 +148,7 @@ function onTouchEnd() {
     if (props.flipSide === 'left' || props.flipSide === 'down') {
       // If past (-)90 degrees, flip to front. Otherwise, snap back to back.
       if (rotation.value > -90) {
-        side.value = 'front'
-        rotation.value = 0
-        emit(`flip:${side.value}`)
+        model.value = false
         return
       } else {
         rotation.value = -180
@@ -144,9 +157,7 @@ function onTouchEnd() {
     }
 
     if (rotation.value < 90) {
-      side.value = 'front'
-      rotation.value = 0
-      emit(`flip:${side.value}`)
+      model.value = false
       return
     } else {
       rotation.value = 180
@@ -158,34 +169,18 @@ function onTouchEnd() {
 // Desktop and mobile handler
 function onClick() {
   if (!props.activeClick) return
-  side.value = side.value === 'front' ? 'back' : 'front'
-  if (props.flipSide === 'up' || props.flipSide === 'down') {
-    rotation.value = side.value === 'back' ? props.flipSide === 'up' ? 180 : -180 : 0
-    emit(`flip:${side.value}`)
-    return
-  }
-  rotation.value = side.value === 'back' ? props.flipSide === 'right' ? 180 : -180 : 0
-  emit(`flip:${side.value}`)
+  model.value = !model.value
 }
 
 // Desktop handlers only
 function onMouseEnter() {
   if (!props.activeHover || !isDesktop) return
-  side.value = 'back'
-  if (props.flipSide === 'up' || props.flipSide === 'down') {
-    rotation.value = props.flipSide === 'down' ? -180 : 180
-    emit(`flip:${side.value}`)
-    return
-  }
-  rotation.value = props.flipSide === 'right' ? 180 : -180
-  emit(`flip:${side.value}`)
+  model.value = true
 }
 
 function onMouseLeave() {
   if (!props.activeHover || !isDesktop) return
-  side.value = 'front'
-  rotation.value = 0
-  emit(`flip:${side.value}`)
+  model.value = false
 }
 </script>
 
@@ -200,7 +195,7 @@ function onMouseLeave() {
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
   >
-    <div class="flip-card-inner" :style="cardStyle" :class="{ flipped: isFlipped }">
+    <div class="flip-card-inner" :style="cardStyle">
       <div class="flip-card-face front" :class="cardClass"><slot name="front"></slot></div>
       <div class="flip-card-face back" :class="flipSide + ' ' + cardClass"><slot name="back"></slot></div>
     </div>

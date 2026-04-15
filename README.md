@@ -184,7 +184,8 @@ This prevents hydration mismatches and ensures your component renders correctly.
 - Works on mobile and desktop
 
 ### Drag/Swipe
-- Move your finger/mouse in the flip direction
+- Move your finger in the flip direction
+- Drag distance is proportional to the card size (width for `left`/`right`, height for `up`/`down`)
 - 90-degree threshold to determine final side
 - Smooth animation with configurable transitions
 
@@ -233,6 +234,16 @@ The component emits events when the card flips:
 ### Usage
 
 ```html
+<script setup>
+const onFlipToFront = () => {
+  console.log('Card flipped to front')
+}
+
+const onFlipToBack = () => {
+  console.log('Card flipped to back')
+}
+</script>
+
 <template>
   <VFlipCard
     flip-side="right"
@@ -244,16 +255,96 @@ The component emits events when the card flips:
     <template #back>Back</template>
   </VFlipCard>
 </template>
+```
 
+## v-model: Programmatic State Control
+
+The component supports `v-model` binding for two-way synchronization of the card's flip state. This allows you to control the card programmatically from your Vue component.
+
+### State values
+- `true`: Card is flipped to show the back face
+- `false`: Card is showing the front face
+
+### Usage
+
+```html
 <script setup>
-const onFlipToFront = () => {
-  console.log('Card flipped to front')
+import { ref } from 'vue'
+import VFlipCard from '@nv-dev/vue-flipcard'
+
+const isFlipped = ref(false)
+</script>
+
+<template>
+  <div>
+    <button @click="isFlipped = !isFlipped">
+      {{ isFlipped ? 'Show Front' : 'Show Back' }}
+    </button>
+
+    <VFlipCard
+      v-model="isFlipped"
+      flip-side="right"
+      active-click
+      active-drag
+    >
+      <template #front>Front side</template>
+      <template #back>Back side</template>
+    </VFlipCard>
+  </div>
+</template>
+```
+
+### Two-way binding
+
+The component automatically updates the `v-model` value when:
+- User clicks the card (with `activeClick`)
+- User drags/swipes past 90 degrees (with `activeDrag`)
+- User hovers (with `activeHover` on desktop)
+
+You can also update the state programmatically:
+
+```typescript
+const isFlipped = ref(false)
+
+const flipCard = () => {
+  isFlipped.value = true
 }
 
-const onFlipToBack = () => {
-  console.log('Card flipped to back')
+const resetCard = () => {
+  isFlipped.value = false
+}
+```
+
+### Dynamic state management
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const card1State = ref(false)
+const card2State = ref(false)
+
+const toggleAll = () => {
+  card1State.value = !card1State.value
+  card2State.value = !card2State.value
 }
 </script>
+
+<template>
+  <div>
+    <button @click="toggleAll">Toggle all cards</button>
+
+    <VFlipCard v-model="card1State" flip-side="right">
+      <template #front>Card 1 Front</template>
+      <template #back>Card 1 Back</template>
+    </VFlipCard>
+
+    <VFlipCard v-model="card2State" flip-side="left">
+      <template #front>Card 2 Front</template>
+      <template #back>Card 2 Back</template>
+    </VFlipCard>
+  </div>
+</template>
 ```
 
 ## Browser Support
